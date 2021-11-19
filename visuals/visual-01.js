@@ -1,5 +1,6 @@
 import {noise3D, mapRange} from "../utils/index";
 import {Visual} from '../visual';
+import {Pane} from "tweakpane";
 
 let params = {
   cols: 10,
@@ -72,7 +73,12 @@ export class Visual01 extends Visual{
     }
   }
 
-  createPane(pane) {
+  createPane() {
+    const tp = document.querySelector('.tp-dfwv')
+    if (tp) {
+      tp.parentNode.removeChild(tp);
+    }
+    const pane = new Pane();
     let folder;
     folder = pane.addFolder({ title: 'Grid '});
     folder.addInput(params, 'lineCap', { options: { butt: 'butt', round: 'round', square: 'square' }});

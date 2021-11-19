@@ -8,5 +8,5 @@ export class Visual {
   mouseClick(evt) {}
   keyPress(evt) {}
   draw(ctx, width, height, frame) {}
-  createPane(pane) {}
+  createPane() {}
 }
