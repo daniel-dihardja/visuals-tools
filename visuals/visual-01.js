@@ -12,10 +12,10 @@ let params = {
   speed: 5,
   lineCap: 'butt',
   useMidi: true,
-  paramsCollection: '0'
+  scenes: '0'
 };
 
-const paramsCollection = JSON.parse(window.localStorage.getItem('params')) || [];
+const scenes = JSON.parse(window.localStorage.getItem('params')) || [];
 
 export class Visual01 extends Visual{
 
@@ -92,16 +92,20 @@ export class Visual01 extends Visual{
     folder.addInput(params, 'amp', { min: 0, max: 1 });
     folder.addInput(params, 'speed', { min: 5, max: 10 });
     folder.addInput(params, 'useMidi');
-    folder.addInput(params, 'paramsCollection', this.getParamsOptions()).on('change', ev => {
-      Object.keys(params).forEach(key => {
-        params[key] = ev.value[key];
-      });
+    folder.addInput(params, 'scenes', this.getScenesOptions()).on('change', ev => {
+      this.setParams(ev.value);
     });
   }
 
-  getParamsOptions() {
+  setParams(p) {
+    Object.keys(params).forEach(key => {
+      params[key] = p[key];
+    });
+  }
+
+  getScenesOptions() {
     const o = {};
-    paramsCollection.forEach((e, i) => {
+    scenes.forEach((e, i) => {
       o[i] = e;
     });
     return {options: o};
@@ -109,8 +113,8 @@ export class Visual01 extends Visual{
 
   keyPress(evt) {
     if (evt.key === 's') {
-      paramsCollection.push(params);
-      window.localStorage.setItem('params', JSON.stringify(paramsCollection));
+      scenes.push(params);
+      window.localStorage.setItem('params', JSON.stringify(scenes));
     }
   }
 }
