@@ -1,10 +1,6 @@
-import * as Tweakpane from 'Tweakpane'
+import {Pane} from 'Tweakpane'
 import { Visual01 } from "./visuals/visual-01";
-
-/** Settings */
-const settings = {
-  fps: 30
-}
+import { Visual02 } from "./visuals/visual-02";
 
 /** Setup canvas */
 const c = document.getElementById('canvas');
@@ -14,21 +10,20 @@ const ctx = c.getContext('2d');
 const w = c.width;
 const h = c.height;
 
-
-
 /** Setup visuals */
 const visuals = [];
-const v1 = new Visual01();
-visuals.push(v1);
+visuals.push(new Visual01());
+visuals.push(new Visual02());
+
+/** Ref to the pane */
+let pane = new Pane();
 
 /** Visuals dict */
-const index = 0;
-let currVisual = visuals[index];
-currVisual.createPane(new Tweakpane.Pane());
+let currVisual = visuals[0];
+currVisual.createPane(pane);
 
 /** Frame counter */
 let frame = 1;
-
 
 /** Mouse listeners */
 c.addEventListener('mousedown', (evt) => {
@@ -63,6 +58,22 @@ c.addEventListener('click', (evt) => {
   }
 });
 
+
+window.addEventListener('keypress', (evt) => {
+  try {
+    const index = parseInt(evt.key);
+    const v = visuals[index];
+    if (v) {
+      const tp = document.querySelector('.tp-dfwv')
+      tp.parentNode.removeChild(tp);
+      pane = new Pane();
+      currVisual = v;
+      currVisual.createPane(pane);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+})
 
 const loop = () => {
   requestAnimationFrame(loop);
