@@ -27,34 +27,26 @@ let frame = 1;
 
 /** Mouse listeners */
 c.addEventListener('mousedown', (evt) => {
-  try {
+  if (currVisual) {
     currVisual.mouseDown(evt);
-  } catch(error) {
-
   }
 });
 
 c.addEventListener('mousemove', (evt) => {
-  try {
+  if (currVisual) {
     currVisual.mouseMove(evt);
-  } catch(error) {
-
   }
 });
 
 c.addEventListener('mouseup', (evt) => {
-  try {
+  if (currVisual) {
     currVisual.mouseUp(evt);
-  } catch(error) {
-
   }
 });
 
 c.addEventListener('click', (evt) => {
-  try {
+  if (currVisual) {
     currVisual.mouseClick(evt);
-  } catch(error) {
-
   }
 });
 
@@ -73,6 +65,7 @@ window.addEventListener('keypress', (evt) => {
   } catch (error) {
     console.error(error);
   }
+  currVisual.keyPress(evt);
 })
 
 const loop = () => {

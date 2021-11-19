@@ -1,7 +1,7 @@
-import {noise3D} from "../utils/index";
-import {mapRange} from "../utils/index";
+import {noise3D, mapRange} from "../utils/index";
+import {Visual} from '../visual';
 
-const params = {
+let params = {
   cols: 10,
   rows: 10,
   scaleMin: 1,
@@ -11,10 +11,12 @@ const params = {
   speed: 5,
   lineCap: 'butt',
   useMidi: true,
-  showMasks: false,
+  paramsCollection: '0'
 };
 
-export class Visual01 {
+const paramsCollection = JSON.parse(window.localStorage.getItem('params')) || [];
+
+export class Visual01 extends Visual{
 
   draw(ctx, width, height, frame) {
     ctx.fillStyle = 'black';
@@ -84,6 +86,25 @@ export class Visual01 {
     folder.addInput(params, 'amp', { min: 0, max: 1 });
     folder.addInput(params, 'speed', { min: 5, max: 10 });
     folder.addInput(params, 'useMidi');
-    folder.addInput(params, 'showMasks');
+    folder.addInput(params, 'paramsCollection', this.getParamsOptions()).on('change', ev => {
+      Object.keys(params).forEach(key => {
+        params[key] = ev.value[key];
+      });
+    });
+  }
+
+  getParamsOptions() {
+    const o = {};
+    paramsCollection.forEach((e, i) => {
+      o[i] = e;
+    });
+    return {options: o};
+  }
+
+  keyPress(evt) {
+    if (evt.key === 's') {
+      paramsCollection.push(params);
+      window.localStorage.setItem('params', JSON.stringify(paramsCollection));
+    }
   }
 }
