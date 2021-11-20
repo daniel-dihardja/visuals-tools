@@ -48,9 +48,38 @@ c.addEventListener('click', (evt) => {
   }
 });
 
+
+let isCtrlDown = false;
+window.addEventListener('keydown', evt => {
+  if (evt.key === 'Control') {
+    isCtrlDown = true;
+  }
+})
+
+window.addEventListener('keyup', evt => {
+  if (evt.key === 'Control') {
+    isCtrlDown = false;
+  }
+})
+
 window.addEventListener('keypress', (evt) => {
+  const index = parseInt(evt.key);
+  if (index || index === 0) {
+    swicthVisual(index);
+    return;
+  }
+
+  if (currVisual) {
+    if (isCtrlDown) {
+      currVisual.ctrlKey(evt);
+    } else {
+      currVisual.keyPress(evt);
+    }
+  }
+})
+
+const swicthVisual = (index) => {
   try {
-    const index = parseInt(evt.key);
     const v = visuals[index];
     if (v) {
       currVisual = v;
@@ -59,23 +88,10 @@ window.addEventListener('keypress', (evt) => {
   } catch (error) {
     console.error(error);
   }
-  currVisual.keyPress(evt);
-})
+}
 
-window.addEventListener('keydown', evt => {
-  console.log(evt);
-  if (currVisual && evt.key === 'Control') {
-    currVisual.ctrlKeyDown = true;
-  }
-})
 
-window.addEventListener('keyup', evt => {
-  console.log(evt);
-  if (currVisual && evt.key === 'Control') {
-    currVisual.ctrlKeyDown = false;
-  }
-})
-
+/** Entrypoint */
 const loop = () => {
   requestAnimationFrame(loop);
   if (currVisual) {

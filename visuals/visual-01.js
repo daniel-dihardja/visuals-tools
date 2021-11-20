@@ -15,9 +15,12 @@ const params = {
   scenes: '0'
 };
 
-const scenes = JSON.parse(window.localStorage.getItem('visuals-01')) || {};
-
 export class Visual01 extends Visual{
+
+  constructor() {
+    super();
+    this.getScenes('visuals-01')
+  }
 
   draw(ctx, width, height, frame) {
     ctx.fillStyle = 'black';
@@ -74,10 +77,7 @@ export class Visual01 extends Visual{
   }
 
   createPane() {
-    const tp = document.querySelector('.tp-dfwv')
-    if (tp) {
-      tp.parentNode.removeChild(tp);
-    }
+    this.removeTweakPane();
     const pane = new Pane();
     let folder;
     folder = pane.addFolder({ title: 'Grid '});
@@ -94,21 +94,16 @@ export class Visual01 extends Visual{
     folder.addInput(params, 'useMidi');
   }
 
-  setParams(p) {
-    Object.keys(params).forEach(key => {
-      params[key] = p[key];
-    });
+  ctrlKey(evt) {
+    this.scenes[evt.key] = {... params};
+    this.storeScenes('visuals-01');
   }
 
   keyPress(evt) {
-    if(this._ctrlKeyDown) {
-      scenes[evt.key] = {... params};
-      window.localStorage.setItem('visuals-01', JSON.stringify(scenes));
-    } else {
-      const p = scenes[evt.key];
-      if (p) {
-        this.setParams(p);
-      }
+    const newParams = this.scenes[evt.key];
+    if (newParams) {
+      this.setParams(params, newParams);
+      this.createPane();
     }
   }
 }
