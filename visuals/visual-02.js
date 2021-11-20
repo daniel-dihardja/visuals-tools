@@ -15,7 +15,8 @@ export class Visual02 extends Visual{
       x: 0,
       y: 0,
       w: 10,
-      h: 0
+      h: 0,
+      angle: 0,
     });
     this.isMouseDown = false;
   }
@@ -28,8 +29,11 @@ export class Visual02 extends Visual{
     const index = this.frameCount % 60;
     ctx.fillStyle = 'white';
     for (let e of this.data) {
-      // const s = noise2D(e.x, e.y, 0.1, 0.5);
-      ctx.fillRect(e.x, e.y, e.w, e.h);
+      ctx.save();
+      ctx.translate(e.x, e.y);
+      ctx.rotate(e.angle);
+      ctx.fillRect(0, 0, e.w, e.h);
+      ctx.restore();
     }
   }
 
@@ -44,11 +48,13 @@ export class Visual02 extends Visual{
   mouseMove(evt) {
     if (! this.isMouseDown) return;
     const index = this.frameCount % 60;
+    const n = noise2D(evt.offsetX, evt.offsetY, 0.005, 0.5)
     this.data[index] = {
       x: evt.offsetX,
       y: evt.offsetY,
-      w: 20,
-      h: 20
+      w: n * 200,
+      h: n * 100,
+      angle: n * Math.PI * 0.5,
     }
   }
 
