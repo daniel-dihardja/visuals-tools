@@ -75,7 +75,7 @@ window.addEventListener('keypress', (evt) => {
 
   if (currVisual) {
     if (isCtrlDown) {
-      currVisual.ctrlKey(evt);
+      currVisual.ctrlAndKeyPress(evt);
     } else {
       currVisual.keyPress(evt);
     }
@@ -93,7 +93,6 @@ const swicthVisual = (index) => {
     console.error(error);
   }
 }
-
 
 /** Entrypoint */
 const loop = () => {

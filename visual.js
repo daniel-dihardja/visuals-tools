@@ -35,7 +35,7 @@ export class Visual {
   mouseMove(evt) {}
   mouseClick(evt) {}
   keyPress(evt) {}
-  ctrlKey(evt) {}
+  ctrlAndKeyPress(evt) {}
   draw(ctx, width, height, frame) {}
   createPane() {}
 }

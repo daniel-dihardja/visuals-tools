@@ -95,7 +95,7 @@ export class Visual01 extends Visual{
     folder.addInput(params, 'useMidi');
   }
 
-  ctrlKey(evt) {
+  ctrlAndKeyPress(evt) {
     this.scenes[evt.key] = {... params};
     this.storeScenes('visuals-01');
   }
