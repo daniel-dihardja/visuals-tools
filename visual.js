@@ -2,6 +2,12 @@
  * interface for the visuals
  */
 export class Visual {
+  constructor() {
+    this._ctrlKeyDown = false;
+  }
+  set ctrlKeyDown(val) {
+    this._ctrlKeyDown = val;
+  }
   mouseDown(evt) {}
   mouseUp(evt) {}
   mouseMove(evt) {}

@@ -2,20 +2,20 @@ import {noise3D, mapRange} from "../utils/index";
 import {Visual} from '../visual';
 import {Pane} from "tweakpane";
 
-let params = {
+const params = {
   cols: 10,
   rows: 10,
   scaleMin: 1,
   scaleMax: 30,
   freq: 0.001,
   amp: 0.2,
-  speed: 5,
+  speed: 3,
   lineCap: 'butt',
   useMidi: true,
   scenes: '0'
 };
 
-const scenes = JSON.parse(window.localStorage.getItem('params')) || [];
+const scenes = JSON.parse(window.localStorage.getItem('visuals-01')) || {};
 
 export class Visual01 extends Visual{
 
@@ -90,11 +90,8 @@ export class Visual01 extends Visual{
     folder = pane.addFolder({ title: 'Noise' });
     folder.addInput(params, 'freq', { min: -0.01, max: 0.01 });
     folder.addInput(params, 'amp', { min: 0, max: 1 });
-    folder.addInput(params, 'speed', { min: 5, max: 10 });
+    folder.addInput(params, 'speed', { min: 1, max: 10 });
     folder.addInput(params, 'useMidi');
-    folder.addInput(params, 'scenes', this.getScenesOptions()).on('change', ev => {
-      this.setParams(ev.value);
-    });
   }
 
   setParams(p) {
@@ -103,18 +100,15 @@ export class Visual01 extends Visual{
     });
   }
 
-  getScenesOptions() {
-    const o = {};
-    scenes.forEach((e, i) => {
-      o[i] = e;
-    });
-    return {options: o};
-  }
-
   keyPress(evt) {
-    if (evt.key === 's') {
-      scenes.push(params);
-      window.localStorage.setItem('params', JSON.stringify(scenes));
+    if(this._ctrlKeyDown) {
+      scenes[evt.key] = {... params};
+      window.localStorage.setItem('visuals-01', JSON.stringify(scenes));
+    } else {
+      const p = scenes[evt.key];
+      if (p) {
+        this.setParams(p);
+      }
     }
   }
 }

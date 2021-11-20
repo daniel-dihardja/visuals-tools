@@ -22,25 +22,26 @@ currVisual.createPane();
 /** Frame counter */
 let frame = 1;
 
-/** Mouse listeners */
+/** Pass the mouse down event to the visual */
 c.addEventListener('mousedown', (evt) => {
   if (currVisual) {
     currVisual.mouseDown(evt);
   }
 });
 
+/** Pass the mouse move event to the visual */
 c.addEventListener('mousemove', (evt) => {
   if (currVisual) {
     currVisual.mouseMove(evt);
   }
 });
-
+/** Pass the mouse up event to the visual */
 c.addEventListener('mouseup', (evt) => {
   if (currVisual) {
     currVisual.mouseUp(evt);
   }
 });
-
+/** Pass the mouse click event to the visual */
 c.addEventListener('click', (evt) => {
   if (currVisual) {
     currVisual.mouseClick(evt);
@@ -59,6 +60,20 @@ window.addEventListener('keypress', (evt) => {
     console.error(error);
   }
   currVisual.keyPress(evt);
+})
+
+window.addEventListener('keydown', evt => {
+  console.log(evt);
+  if (currVisual && evt.key === 'Control') {
+    currVisual.ctrlKeyDown = true;
+  }
+})
+
+window.addEventListener('keyup', evt => {
+  console.log(evt);
+  if (currVisual && evt.key === 'Control') {
+    currVisual.ctrlKeyDown = false;
+  }
 })
 
 const loop = () => {
