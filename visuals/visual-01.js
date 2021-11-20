@@ -17,14 +17,14 @@ const params = {
 
 export class Visual01 extends Visual{
 
-  constructor() {
-    super();
+  constructor(settings) {
+    super(settings);
     this.getScenes('visuals-01')
   }
 
-  draw(ctx, width, height, frame) {
+  draw(ctx) {
     ctx.fillStyle = 'black';
-    ctx.fillRect(0,0, width, height);
+    ctx.fillRect(0,0, this.width, this.height);
 
     let cols, rows;
     cols = params.cols;
@@ -32,12 +32,12 @@ export class Visual01 extends Visual{
 
     const numCells = cols * rows;
 
-    const gridw = width  * 0.8;
-    const gridh = height * 0.8;
+    const gridw = this.width  * 0.8;
+    const gridh = this.height * 0.8;
     const cellw = gridw / cols;
     const cellh = gridh / rows;
-    const margx = (width  - gridw) * 0.5;
-    const margy = (height - gridh) * 0.5;
+    const margx = (this.width  - gridw) * 0.5;
+    const margy = (this.height - gridh) * 0.5;
 
     for (let i = 0; i < numCells; i++) {
       const col = i % cols;
@@ -48,8 +48,9 @@ export class Visual01 extends Visual{
       const w = cellw * 0.8;
       const h = cellh * 0.8;
 
+
       let n, angle;
-      n = noise3D(x, y, frame * params.speed, params.freq);
+      n = noise3D(x, y, this.frameCount * params.speed, params.freq);
       angle = n * Math.PI * params.amp;
 
       // const scale = (n + 1) / 2 * 30;

@@ -1,19 +1,23 @@
 import { Visual01 } from "./visuals/visual-01";
 import { Visual02 } from "./visuals/visual-02";
 
+/** Settings */
+const settings = {
+  width: 1080,
+  height: 720
+}
+
 /** Setup canvas */
 const c = document.getElementById('canvas');
-c.width = 1080;
-c.height = 720;
-
+c.width = settings.width;
+c.height = settings.height;
 const ctx = c.getContext('2d');
-const w = c.width;
-const h = c.height;
+
 
 /** Setup visuals */
 const visuals = [];
-visuals.push(new Visual01());
-visuals.push(new Visual02());
+visuals.push(new Visual01(settings));
+visuals.push(new Visual02(settings));
 
 /** Visuals dict */
 let currVisual = visuals[0];
@@ -95,7 +99,8 @@ const swicthVisual = (index) => {
 const loop = () => {
   requestAnimationFrame(loop);
   if (currVisual) {
-    currVisual.draw(ctx, w, h, frame);
+    currVisual.setFrameCount(frame);
+    currVisual.draw(ctx);
   }
   frame ++;
 }

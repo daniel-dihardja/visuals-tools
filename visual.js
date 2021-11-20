@@ -2,9 +2,17 @@
  * interface for the visuals
  */
 export class Visual {
-  constructor() {
+  constructor(settings) {
     this.scenes = {}
+    this.frameCount = 1;
+    this.width = settings.width;
+    this.height = settings.height;
   }
+
+  setFrameCount(val) {
+    this.frameCount = val;
+  }
+
   storeScenes(key) {
     window.localStorage.setItem(key, JSON.stringify(this.scenes));
   }
