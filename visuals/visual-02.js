@@ -3,37 +3,48 @@ import {Pane} from "tweakpane";
 import {noise2D} from "../utils";
 
 const params = {
-  cols: 10,
-  rows: 10,
+  awidth: 200,
+  aheight: 100
 };
+
+class Agent {
+  render(ctx, data) {
+    ctx.save();
+    ctx.translate(data.x, data.y);
+    ctx.rotate(data.angle);
+    ctx.fillRect(0, 0, data.w, data.h);
+
+    ctx.fillStyle = 'black';
+    ctx.fillRect(0, 0, data.n * 50, 10);
+
+    ctx.restore();
+  }
+}
 
 export class Visual02 extends Visual{
 
   constructor(settings) {
     super(settings);
-    this.data = new Array(60).fill({
+    this.listSize = 60;
+    this.data = new Array(this.listSize).fill(({
       x: 0,
       y: 0,
       w: 10,
       h: 0,
       angle: 0,
-    });
+    }));
+
+    this.agents = new Array(this.listSize).fill(new Agent());
     this.isMouseDown = false;
   }
 
   draw(ctx) {
-    // console.log(this.frameCount);
     ctx.fillStyle = 'black';
     ctx.fillRect(0, 0, this.width, this.height);
-
-    const index = this.frameCount % 60;
     ctx.fillStyle = 'white';
-    for (let e of this.data) {
-      ctx.save();
-      ctx.translate(e.x, e.y);
-      ctx.rotate(e.angle);
-      ctx.fillRect(0, 0, e.w, e.h);
-      ctx.restore();
+    for (let i=0; i < this.listSize; i++) {
+      const data = this.data[i];
+      this.agents[i].render(ctx, data);
     }
   }
 
@@ -47,14 +58,15 @@ export class Visual02 extends Visual{
 
   mouseMove(evt) {
     if (! this.isMouseDown) return;
-    const index = this.frameCount % 60;
+    const index = this.frameCount % this.listSize;
     const n = noise2D(evt.offsetX, evt.offsetY, 0.005, 0.5)
     this.data[index] = {
       x: evt.offsetX,
       y: evt.offsetY,
-      w: n * 200,
-      h: n * 100,
+      w: n * params.awidth,
+      h: n * params.aheight,
       angle: n * Math.PI * 0.5,
+      n: n
     }
   }
 
@@ -62,8 +74,8 @@ export class Visual02 extends Visual{
     this.removeTweakPane();
     const pane = new Pane();
     let folder;
-    folder = pane.addFolder({ title: 'Grid '});
-    folder.addInput(params, 'cols', { min: 2, max: 50, step: 1 });
-    folder.addInput(params, 'rows', { min: 2, max: 50, step: 1 });
+    folder = pane.addFolder({ title: 'List '});
+    folder.addInput(params, 'awidth', { min: 20, max: 400, step: 1 });
+    folder.addInput(params, 'aheight', { min: 20, max: 400, step: 1 });
   }
 }
