@@ -36,6 +36,7 @@ export class Visual {
   mouseClick(evt) {}
   keyPress(evt) {}
   ctrlAndKeyPress(evt) {}
+  onMidiMessage(evt) {}
   draw(ctx, width, height, frame) {}
   createPane() {}
 }

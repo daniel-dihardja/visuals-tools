@@ -1,17 +1,19 @@
 import {Visual} from '../visual';
 import {Pane} from "tweakpane";
-import {noise2D} from "../utils";
+import {noise2D, noise1D} from "../utils";
+
 
 const params = {
-  awidth: 200,
-  aheight: 100
+  cols: 10,
+  height: 100,
+  hoffset: 0,
 };
 
 class Agent {
   render(ctx, data) {
     ctx.save();
     ctx.translate(data.x, data.y);
-    ctx.rotate(data.angle);
+    ctx.rotate(data.angle * params.amp);
     ctx.fillRect(0, 0, data.w, data.h);
 
     ctx.fillStyle = 'black';
@@ -25,12 +27,12 @@ export class Visual02 extends Visual{
 
   constructor(settings) {
     super(settings);
-    this.listSize = 60;
+    this.listSize = 360;
     this.data = new Array(this.listSize).fill(({
       x: 0,
       y: 0,
       w: 10,
-      h: 0,
+      h: 10,
       angle: 0,
     }));
 
@@ -42,9 +44,19 @@ export class Visual02 extends Visual{
     ctx.fillStyle = 'black';
     ctx.fillRect(0, 0, this.width, this.height);
     ctx.fillStyle = 'white';
-    for (let i=0; i < this.listSize; i++) {
-      const data = this.data[i];
-      this.agents[i].render(ctx, data);
+
+    const gridw = this.width * 1;
+    const cellw = gridw / params.cols;
+    const margx = (this.width  - gridw);
+    // const margy = (this.height - gridh) * 0.5;
+
+    for (let i=0; i < params.cols; i++) {
+      const x = i * cellw;
+      const n = noise2D(this.frameCount + x, 400, 0.01, 0.5);
+      ctx.save();
+      ctx.translate(margx + x, 400);
+      ctx.fillRect(0, 0, cellw * 0.8, (n * params.height) - params.hoffset );
+      ctx.restore();
     }
   }
 
@@ -56,26 +68,17 @@ export class Visual02 extends Visual{
     this.isMouseDown = false;
   }
 
-  mouseMove(evt) {
-    if (! this.isMouseDown) return;
-    const index = this.frameCount % this.listSize;
-    const n = noise2D(evt.offsetX, evt.offsetY, 0.005, 0.5)
-    this.data[index] = {
-      x: evt.offsetX,
-      y: evt.offsetY,
-      w: n * params.awidth,
-      h: n * params.aheight,
-      angle: n * Math.PI * 0.5,
-      n: n
-    }
+  mouseClick(evt) {
+
   }
 
   createPane() {
     this.removeTweakPane();
     const pane = new Pane();
     let folder;
-    folder = pane.addFolder({ title: 'List '});
-    folder.addInput(params, 'awidth', { min: 20, max: 400, step: 1 });
-    folder.addInput(params, 'aheight', { min: 20, max: 400, step: 1 });
+    folder = pane.addFolder({ title: 'Grid '});
+    folder.addInput(params, 'cols', { min: 2, max: 100, step: 1 });
+    folder.addInput(params, 'height', { min: 2, max: 500, step: 1 });
+    folder.addInput(params, 'hoffset', { min: 0, max: 200, step: 1 });
   }
 }
