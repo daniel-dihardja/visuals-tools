@@ -52,9 +52,9 @@ export class Visual02 extends Visual{
 
     for (let i=0; i < params.cols; i++) {
       const x = i * cellw;
-      const n = noise2D(this.frameCount + x, 400, 0.01, 0.5);
+      const n = noise2D(x, this.frameCount, 0.01, 0.5);
       ctx.save();
-      ctx.translate(margx + x, 400);
+      ctx.translate(margx + x, this.height);
       ctx.fillRect(0, 0, cellw * 0.8, (n * params.height) - params.hoffset );
       ctx.restore();
     }

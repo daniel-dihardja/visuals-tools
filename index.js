@@ -16,7 +16,7 @@ const ctx = c.getContext('2d');
 
 /** Setup visuals */
 const visuals = [];
-//visuals.push(new Visual01(settings));
+visuals.push(new Visual01(settings));
 visuals.push(new Visual02(settings));
 
 /** Visuals dict */
