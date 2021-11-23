@@ -1,12 +1,15 @@
 import {Visual} from '../visual';
 import {Pane} from "tweakpane";
 import {noise2D, noise1D} from "../utils";
-
+import {NoiseGrid} from "../lib/noise-grid";
+import {StarsBackground} from "../lib/stars-background";
 
 const params = {
   cols: 10,
-  height: 100,
-  hoffset: 0,
+  amp: 100,
+  height: 300,
+  offset: 0.01,
+  freq: 0.01
 };
 
 class Agent {
@@ -38,26 +41,46 @@ export class Visual02 extends Visual{
 
     this.agents = new Array(this.listSize).fill(new Agent());
     this.isMouseDown = false;
+    this.noiseGrid = new NoiseGrid(settings);
+    this.starBg = new StarsBackground(settings);
   }
 
   draw(ctx) {
+    ctx.save();
     ctx.fillStyle = 'black';
     ctx.fillRect(0, 0, this.width, this.height);
-    ctx.fillStyle = 'white';
+    ctx.restore();
 
+    // this.noiseGrid.render(ctx, this.frameCount, params);
+    this.starBg.render(ctx, this.frameCount, params);
+
+    ctx.fillStyle = 'white';
     const gridw = this.width * 1;
     const cellw = gridw / params.cols;
     const margx = (this.width  - gridw);
     // const margy = (this.height - gridh) * 0.5;
 
     for (let i=0; i < params.cols; i++) {
+      this.drawGrid(ctx);
       const x = i * cellw;
-      const n = noise2D(x, this.frameCount, 0.01, 0.5);
+      const n = noise2D(x, this.frameCount, 0.005, 0.5);
       ctx.save();
       ctx.translate(margx + x, this.height);
-      ctx.fillRect(0, 0, cellw * 0.8, (n * params.height) - params.hoffset );
+      ctx.fillStyle = 'gray'
+      ctx.fillRect(0, 0, cellw * 1, (n * params.amp) - params.height );
+      ctx.restore();
+
+      const n2 = noise2D(x, this.frameCount, 0.01, -0.3)
+      ctx.save();
+      ctx.translate(margx + x, this.height);
+      ctx.fillStyle = 'white';
+      ctx.fillRect(0,0, cellw * 1, (n2 * params.amp) - (params.height / 1.5));
       ctx.restore();
     }
+  }
+
+  drawGrid(ctx) {
+
   }
 
   mouseDown(evt) {
@@ -68,17 +91,15 @@ export class Visual02 extends Visual{
     this.isMouseDown = false;
   }
 
-  mouseClick(evt) {
-
-  }
-
   createPane() {
     this.removeTweakPane();
     const pane = new Pane();
     let folder;
-    folder = pane.addFolder({ title: 'Grid '});
-    folder.addInput(params, 'cols', { min: 2, max: 100, step: 1 });
-    folder.addInput(params, 'height', { min: 2, max: 500, step: 1 });
-    folder.addInput(params, 'hoffset', { min: 0, max: 200, step: 1 });
+    folder = pane.addFolder({ title: 'Layer 1 '});
+    folder.addInput(params, 'cols', { min: 2, max: 200, step: 1 });
+    folder.addInput(params, 'amp', { min: 2, max: 500, step: 1 });
+    folder.addInput(params, 'height', { min: 0, max: 500, step: 1 });
+    folder.addInput(params, 'offset', { min: -0.02, max: 0.02, step: 0.01 });
+    folder.addInput(params, 'freq', { min: 0.001, max: 0.01, step: 0.001 });
   }
 }
