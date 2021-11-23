@@ -5,11 +5,11 @@ import {NoiseGrid} from "../lib/noise-grid";
 import {StarsBackground} from "../lib/stars-background";
 
 const params = {
-  cols: 10,
+  cols: 200,
   amp: 100,
-  height: 300,
+  height: 100,
   offset: 0.01,
-  freq: 0.01
+  freq: 0.001
 };
 
 class Agent {
@@ -99,7 +99,7 @@ export class Visual02 extends Visual{
     folder.addInput(params, 'cols', { min: 2, max: 200, step: 1 });
     folder.addInput(params, 'amp', { min: 2, max: 500, step: 1 });
     folder.addInput(params, 'height', { min: 0, max: 500, step: 1 });
-    folder.addInput(params, 'offset', { min: -0.02, max: 0.02, step: 0.01 });
+    folder.addInput(params, 'offset', { min: -0.01, max: 0.01, step: 0.01 });
     folder.addInput(params, 'freq', { min: 0.001, max: 0.01, step: 0.001 });
   }
 }
