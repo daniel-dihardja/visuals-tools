@@ -6,7 +6,7 @@ import {StarsBackground} from "../lib/stars-background";
 
 const params = {
   cols: 200,
-  amp: 100,
+  amp: 25,
   height: 100,
   offset: 0.01,
   freq: 0.001
@@ -96,9 +96,7 @@ export class Visual02 extends Visual{
     const pane = new Pane();
     let folder;
     folder = pane.addFolder({ title: 'Layer 1 '});
-    folder.addInput(params, 'cols', { min: 2, max: 200, step: 1 });
-    folder.addInput(params, 'amp', { min: 2, max: 500, step: 1 });
-    folder.addInput(params, 'height', { min: 0, max: 500, step: 1 });
+    folder.addInput(params, 'amp', { min: 1, max: 100, step: 1 });
     folder.addInput(params, 'offset', { min: -0.01, max: 0.01, step: 0.01 });
     folder.addInput(params, 'freq', { min: 0.001, max: 0.01, step: 0.001 });
   }
