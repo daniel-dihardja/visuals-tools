@@ -32,8 +32,8 @@ export class Visual01 extends Visual{
 
     const numCells = cols * rows;
 
-    const gridw = this.width  * 0.8;
-    const gridh = this.height * 0.8;
+    const gridw = this.width  * 1;
+    const gridh = this.height * 1;
     const cellw = gridw / cols;
     const cellh = gridh / rows;
     const margx = (this.width  - gridw) * 0.5;
@@ -67,7 +67,7 @@ export class Visual01 extends Visual{
       ctx.lineWidth = scale;
       ctx.lineCap = params.lineCap;
 
-      ctx.strokeStyle = 'red';
+      ctx.strokeStyle = 'lightgray';
       ctx.beginPath();
       ctx.moveTo(w * -0.5, 0);
       ctx.lineTo(w *  0.5, 0);

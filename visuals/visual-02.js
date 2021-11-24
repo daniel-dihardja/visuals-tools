@@ -9,7 +9,7 @@ const params = {
   amp: 25,
   height: 100,
   offset: 0.01,
-  freq: 0.001
+  freq: 0.003
 };
 
 class Agent {
@@ -97,7 +97,7 @@ export class Visual02 extends Visual{
     let folder;
     folder = pane.addFolder({ title: 'Layer 1 '});
     folder.addInput(params, 'amp', { min: 1, max: 100, step: 1 });
-    folder.addInput(params, 'offset', { min: -0.01, max: 0.01, step: 0.01 });
-    folder.addInput(params, 'freq', { min: 0.001, max: 0.01, step: 0.001 });
+    folder.addInput(params, 'offset', { min: -0.01, max: 0.01, step: 0.001 });
+    folder.addInput(params, 'freq', { min: -0.01, max: 0.01, step: 0.001 });
   }
 }
