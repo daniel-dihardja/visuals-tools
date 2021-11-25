@@ -66,7 +66,7 @@ export class Visual02 extends Visual{
       const n = noise2D(x, this.frameCount, 0.005, 0.5);
       ctx.save();
       ctx.translate(margx + x, this.height);
-      ctx.fillStyle = 'gray'
+      ctx.fillStyle = 'orange'
       ctx.fillRect(0, 0, cellw * 1, (n * params.amp) - params.height );
       ctx.restore();
 
@@ -98,6 +98,6 @@ export class Visual02 extends Visual{
     folder = pane.addFolder({ title: 'Layer 1 '});
     folder.addInput(params, 'amp', { min: 1, max: 100, step: 1 });
     folder.addInput(params, 'offset', { min: -0.01, max: 0.01, step: 0.001 });
-    folder.addInput(params, 'freq', { min: -0.01, max: 0.01, step: 0.001 });
+    folder.addInput(params, 'freq', { min: -0.01, max: 0.01, step: 0.0001 });
   }
 }

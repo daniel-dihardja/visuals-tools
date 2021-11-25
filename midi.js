@@ -1,3 +1,3 @@
-const onMidiMessage = (data) )> {
+const onMidiMessage = (data) => {
 
 }
