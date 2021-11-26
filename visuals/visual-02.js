@@ -1,4 +1,4 @@
-import {Visual} from '../visual';
+import {Visual} from '../core/visual';
 import {Pane} from "tweakpane";
 import {noise2D, noise1D} from "../utils";
 import {NoiseGrid} from "../lib/noise-grid";

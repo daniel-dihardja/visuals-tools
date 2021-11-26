@@ -1,5 +1,5 @@
 import {noise3D, mapRange} from "../utils/index";
-import {Visual} from '../visual';
+import {Visual} from '../core/visual';
 import {Pane} from "tweakpane";
 
 const params = {

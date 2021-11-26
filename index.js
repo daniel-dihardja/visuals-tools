@@ -1,6 +1,6 @@
 import { Visual01 } from "./visuals/visual-01";
 import { Visual02 } from "./visuals/visual-02";
-import {Masks} from "./masks";
+import {Masks} from "./core/masks";
 
 /** Settings */
 const settings = {

@@ -242,6 +242,10 @@ export class Masks {
     }
   }
 
+  keyShift(evt) {
+    console.log('shift');
+  }
+
   keyDown(evt) {
     if (! this.editMode) return;
     if (evt.key === 'Backspace' && this.masks.length > 1) {
