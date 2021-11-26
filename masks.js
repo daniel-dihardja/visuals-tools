@@ -61,11 +61,7 @@ class Box {
 
   render(ctx) {
     ctx.save();
-    if (this.drag) {
-      ctx.fillStyle = 'red';
-    } else {
-      ctx.fillStyle = 'yellow';
-    }
+    ctx.fillStyle = 'red';
     ctx.translate(this.x, this.y);
     ctx.fillRect(0,0,this.width, this.height);
     ctx.restore();
@@ -122,11 +118,13 @@ class Mask {
     } else {
       ctx.fillStyle = 'black';
     }
+    ctx.beginPath();
     ctx.moveTo(this.d1.X + this.d1.W, this.d1.Y + this.d1.H);
     ctx.lineTo(this.d2.X, this.d2.Y + this.d2.H);
     ctx.lineTo(this.d3.X, this.d3.Y);
     ctx.lineTo(this.d4.X + this.d4.W, this.d4.Y);
     ctx.lineTo(this.d1.X + this.d1.W, this.d1.Y + this.d1.H);
+    ctx.closePath();
     ctx.fill();
     ctx.restore();
   }

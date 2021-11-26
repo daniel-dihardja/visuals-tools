@@ -14,8 +14,6 @@ c.width = settings.width;
 c.height = settings.height;
 const ctx = c.getContext('2d');
 
-const canvasRect = canvas.getBoundingClientRect();
-
 /** Setup visuals */
 const visuals = [];
 visuals.push(new Visual01(settings));
@@ -109,6 +107,9 @@ window.addEventListener('keypress', (evt) => {
     if (evt.key === 'E') {
       masks.toggleMode();
     }
+    if (evt.key === 'V') {
+      showVisuals = ! showVisuals;
+    }
     if (showMasks) {
       masks.keyCtrlShift(evt);
     }
@@ -127,14 +128,21 @@ const swicthVisual = (index) => {
   }
 }
 
+const drawBg = () => {
+  ctx.fillStyle = 'black';
+  ctx.fillRect(0,0,settings.width, settings.height);
+}
 
 /** Entrypoint */
 const loop = () => {
   requestAnimationFrame(loop);
-  if (currVisual) {
+  if (currVisual && showVisuals) {
     currVisual.setFrameCount(frame);
     currVisual.draw(ctx);
+  } else {
+    drawBg();
   }
+
   if (showMasks) {
     masks.render(ctx);
   }
