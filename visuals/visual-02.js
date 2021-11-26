@@ -43,6 +43,7 @@ export class Visual02 extends Visual{
     this.isMouseDown = false;
     this.noiseGrid = new NoiseGrid(settings);
     this.starBg = new StarsBackground(settings);
+    this.getScenes('visuals-02')
   }
 
   draw(ctx) {
@@ -66,7 +67,7 @@ export class Visual02 extends Visual{
       const n = noise2D(x, this.frameCount, 0.005, 0.5);
       ctx.save();
       ctx.translate(margx + x, this.height);
-      ctx.fillStyle = 'red'
+      ctx.fillStyle = 'green'
       ctx.fillRect(0, 0, cellw * 1, (n * params.amp) - params.height );
       ctx.restore();
 
@@ -96,8 +97,21 @@ export class Visual02 extends Visual{
     const pane = new Pane();
     let folder;
     folder = pane.addFolder({ title: 'Layer 1 '});
-    folder.addInput(params, 'amp', { min: 1, max: 100, step: 1 });
-    folder.addInput(params, 'offset', { min: -0.01, max: 0.01, step: 0.001 });
-    folder.addInput(params, 'freq', { min: -0.01, max: 0.01, step: 0.0001 });
+    folder.addInput(params, 'amp', { min: 1, max: 150, step: 1 });
+    folder.addInput(params, 'offset', { min: -0.1, max: 0.1, step: 0.001 });
+    folder.addInput(params, 'freq', { min: -0.05, max: 0.05, step: 0.0001 });
+  }
+
+  ctrlAndKeyPress(evt) {
+    this.scenes[evt.key] = {... params};
+    this.storeScenes('visuals-02');
+  }
+
+  keyPress(evt) {
+    const newParams = this.scenes[evt.key];
+    if (newParams) {
+      this.setParams(params, newParams);
+      this.createPane();
+    }
   }
 }
