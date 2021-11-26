@@ -10,8 +10,12 @@ const settings = {
 
 /** Setup canvas */
 const c = document.getElementById('canvas');
-c.width = settings.width;
-c.height = settings.height;
+c.width = window.innerWidth;
+c.height = window.innerHeight;
+
+settings.width = c.width;
+settings.height = c.height;
+
 const ctx = c.getContext('2d');
 
 /** Setup visuals */
