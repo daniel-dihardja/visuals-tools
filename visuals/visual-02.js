@@ -66,7 +66,7 @@ export class Visual02 extends Visual{
       const n = noise2D(x, this.frameCount, 0.005, 0.5);
       ctx.save();
       ctx.translate(margx + x, this.height);
-      ctx.fillStyle = 'orange'
+      ctx.fillStyle = 'red'
       ctx.fillRect(0, 0, cellw * 1, (n * params.amp) - params.height );
       ctx.restore();
 

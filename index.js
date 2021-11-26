@@ -1,6 +1,6 @@
 import { Visual01 } from "./visuals/visual-01";
 import { Visual02 } from "./visuals/visual-02";
-import {Mask} from "./mask";
+import {Masks} from "./masks";
 
 /** Settings */
 const settings = {
@@ -28,16 +28,21 @@ currVisual.createPane();
 /** Frame counter */
 let frame = 1;
 
-
 /** Masks */
-const masks = [];
-masks.push(new Mask(settings));
+const masks = new Masks(settings);
+
+
+
+/** Flag wether the visuals should be shown or not */
+let showVisuals = true;
+let showMasks = false;
 
 /** Pass the mouse down event to the visual */
 c.addEventListener('mousedown', (evt) => {
   if (currVisual) {
     currVisual.mouseDown(evt);
   }
+  masks.mouseDown(evt);
 });
 
 /** Pass the mouse move event to the visual */
@@ -45,34 +50,40 @@ c.addEventListener('mousemove', (evt) => {
   if (currVisual) {
     currVisual.mouseMove(evt);
   }
+  masks.mouseMove(evt);
 });
 /** Pass the mouse up event to the visual */
 c.addEventListener('mouseup', (evt) => {
   if (currVisual) {
     currVisual.mouseUp(evt);
   }
+  masks.mouseUp(evt);
 });
 /** Pass the mouse click event to the visual */
 c.addEventListener('click', (evt) => {
   if (currVisual) {
     currVisual.mouseClick(evt);
   }
-  console.log(Math.round(evt.clientX - canvasRect.x), Math.round(evt.clientY - canvasRect.y));
-  console.log(canvasRect);
 });
 
-
 let isCtrlDown = false;
+let isShiftDown = false;
 window.addEventListener('keydown', evt => {
   if (evt.key === 'Control') {
     isCtrlDown = true;
   }
-  console.log(evt);
+  if (evt.key === 'Shift') {
+    isShiftDown = true;
+  }
+  masks.keyDown(evt);
 })
 
 window.addEventListener('keyup', evt => {
   if (evt.key === 'Control') {
     isCtrlDown = false;
+  }
+  if (evt.key === 'Shift') {
+    isShiftDown = false;
   }
 })
 
@@ -90,6 +101,18 @@ window.addEventListener('keypress', (evt) => {
       currVisual.keyPress(evt);
     }
   }
+
+  if (isCtrlDown && isShiftDown) {
+    if (evt.key === 'M') {
+      showMasks = ! showMasks;
+    }
+    if (evt.key === 'E') {
+      masks.toggleMode();
+    }
+    if (showMasks) {
+      masks.keyCtrlShift(evt);
+    }
+  }
 })
 
 const swicthVisual = (index) => {
@@ -104,11 +127,6 @@ const swicthVisual = (index) => {
   }
 }
 
-const renderMasks = (ctx) => {
-  for (let m of masks) {
-    m.render(ctx);
-  }
-}
 
 /** Entrypoint */
 const loop = () => {
@@ -117,7 +135,9 @@ const loop = () => {
     currVisual.setFrameCount(frame);
     currVisual.draw(ctx);
   }
-  renderMasks(ctx);
+  if (showMasks) {
+    masks.render(ctx);
+  }
   frame ++;
 }
 loop();
