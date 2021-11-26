@@ -104,7 +104,6 @@ export class Visual01 extends Visual{
     const newParams = this.scenes[evt.key];
     if (newParams) {
       this.setParams(params, newParams);
-      this.createPane();
     }
   }
 }

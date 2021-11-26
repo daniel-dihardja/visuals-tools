@@ -25,7 +25,6 @@ visuals.push(new Visual02(settings));
 
 /** Visuals dict */
 let currVisual = visuals[0];
-currVisual.createPane();
 
 /** Frame counter */
 let frame = 1;
@@ -70,6 +69,7 @@ c.addEventListener('click', (evt) => {
 
 let isCtrlDown = false;
 let isShiftDown = false;
+let showTweakPane = false;
 window.addEventListener('keydown', evt => {
   if (evt.key === 'Control') {
     isCtrlDown = true;
@@ -114,6 +114,14 @@ window.addEventListener('keypress', (evt) => {
     if (evt.key === 'V') {
       showVisuals = ! showVisuals;
     }
+    if (evt.key === 'P') {
+      showTweakPane = ! showTweakPane;
+      if (showTweakPane) {
+        currVisual.createPane();
+      } else {
+        currVisual.removeTweakPane();
+      }
+    }
     if (showMasks) {
       masks.keyCtrlShift(evt);
     }
@@ -125,7 +133,6 @@ const swicthVisual = (index) => {
     const v = visuals[index];
     if (v) {
       currVisual = v;
-      currVisual.createPane();
     }
   } catch (error) {
     console.error(error);
