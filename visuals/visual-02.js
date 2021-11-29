@@ -12,20 +12,6 @@ const params = {
   freq: 0.003
 };
 
-class Agent {
-  render(ctx, data) {
-    ctx.save();
-    ctx.translate(data.x, data.y);
-    ctx.rotate(data.angle * params.amp);
-    ctx.fillRect(0, 0, data.w, data.h);
-
-    ctx.fillStyle = 'black';
-    ctx.fillRect(0, 0, data.n * 50, 10);
-
-    ctx.restore();
-  }
-}
-
 export class Visual02 extends Visual{
 
   constructor(settings) {
@@ -39,7 +25,7 @@ export class Visual02 extends Visual{
       angle: 0,
     }));
 
-    this.agents = new Array(this.listSize).fill(new Agent());
+
     this.isMouseDown = false;
     this.noiseGrid = new NoiseGrid(settings);
     this.starBg = new StarsBackground(settings);
@@ -61,23 +47,23 @@ export class Visual02 extends Visual{
     const margx = (this.width  - gridw);
     // const margy = (this.height - gridh) * 0.5;
 
-    for (let i=0; i < params.cols; i++) {
-      this.drawGrid(ctx);
-      const x = i * cellw;
-      const n = noise2D(x, this.frameCount, 0.005, 0.5);
-      ctx.save();
-      ctx.translate(margx + x, this.height);
-      ctx.fillStyle = 'green'
-      ctx.fillRect(0, 0, cellw * 1, (n * params.amp) - params.height );
-      ctx.restore();
-
-      const n2 = noise2D(x, this.frameCount, 0.01, -0.3)
-      ctx.save();
-      ctx.translate(margx + x, this.height);
-      ctx.fillStyle = 'white';
-      ctx.fillRect(0,0, cellw * 1, (n2 * params.amp) - (params.height / 1.5));
-      ctx.restore();
-    }
+    // for (let i=0; i < params.cols; i++) {
+    //   this.drawGrid(ctx);
+    //   const x = i * cellw;
+    //   const n = noise2D(x, this.frameCount, 0.005, 0.5);
+    //   ctx.save();
+    //   ctx.translate(margx + x, this.height);
+    //   ctx.fillStyle = 'green'
+    //   ctx.fillRect(0, 0, cellw * 1, (n * params.amp) - params.height );
+    //   ctx.restore();
+    //
+    //   const n2 = noise2D(x, this.frameCount, 0.01, -0.3)
+    //   ctx.save();
+    //   ctx.translate(margx + x, this.height);
+    //   ctx.fillStyle = 'white';
+    //   ctx.fillRect(0,0, cellw * 1, (n2 * params.amp) - (params.height / 1.5));
+    //   ctx.restore();
+    // }
   }
 
   drawGrid(ctx) {

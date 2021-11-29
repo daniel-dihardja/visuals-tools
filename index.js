@@ -100,7 +100,7 @@ window.addEventListener('keypress', (evt) => {
     if (isCtrlDown) {
       currVisual.ctrlAndKeyPress(evt);
     } else {
-      currVisual.keyPress(evt);
+      currVisual.keyPress(evt);w2
     }
   }
 
@@ -145,8 +145,8 @@ const drawBg = () => {
 }
 
 /** Entrypoint */
-const loop = () => {
-  requestAnimationFrame(loop);
+function animate(time) {
+  requestAnimationFrame(animate);
   if (currVisual && showVisuals) {
     currVisual.setFrameCount(frame);
     currVisual.draw(ctx);
@@ -159,4 +159,4 @@ const loop = () => {
   }
   frame ++;
 }
-loop();
+requestAnimationFrame(animate);
