@@ -1,5 +1,6 @@
 import { Visual01 } from "./visuals/visual-01";
 import { Visual02 } from "./visuals/visual-02";
+import { VisualMandelbrot01} from './visuals/visual-mandelbrot-01';
 import {Masks} from "./core/masks";
 
 /** Settings */
@@ -20,8 +21,10 @@ const ctx = c.getContext('2d');
 
 /** Setup visuals */
 const visuals = [];
-visuals.push(new Visual01(settings));
-visuals.push(new Visual02(settings));
+//
+// visuals.push(new Visual01(settings));
+// visuals.push(new Visual02(settings));
+visuals.push(new VisualMandelbrot01(settings));
 
 /** Visuals dict */
 let currVisual = visuals[0];
@@ -31,8 +34,6 @@ let frame = 1;
 
 /** Masks */
 const masks = new Masks(settings);
-
-
 
 /** Flag wether the visuals should be shown or not */
 let showVisuals = true;
